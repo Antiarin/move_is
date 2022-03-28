@@ -1,0 +1,30 @@
+:root{
+    --card-svg:clamp(16px, 1.667vw + 0.01em, 40px)
+}
+.container{
+    width:90%;
+    /* height:clamp(400px, 44.359vw + 0.01em, 800px); */
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+    border-radius:1rem;
+    padding:1rem;
+    height:max-content;
+    box-shadow: 0 0 0 4px #00000052;
+    
+}
+
+.img{
+    border-radius:1rem;
+    width:100%;
+    object-fit: cover;
+}
+
+.svg{
+    width:var(--card-svg) !important;
+    height: var(--card-svg)!important;
+}
+.desc{
+    margin-top:clamp(15px, 2.083vw + 0.01em, 40px);
+}
+.duration_vote{
+    margin-bottom:clamp(15px, 1.563vw + 0.01em, 30px);
+}

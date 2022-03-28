@@ -1,0 +1,39 @@
+:root {
+  --home-padding-x: clamp(10px, 3.385vw + 0.01em, 65px);
+  --home-padding-y: clamp(40px, 7.813vw + 0.01em, 150px);
+}
+.container {
+  padding: var(--home-padding-y) var(--home-padding-x);
+}
+.dropdown {
+  width: clamp(150px, 23.438vw + 0.01em, 450px);
+}
+.body {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+.pagination {
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+.pagination_bar {
+  width: 100% !important;
+  color:white !important;
+}
+
+:global(.MuiPaginationItem-root){
+    font-size: 15px !important;
+    display:grid !important;
+    place-items: center !important;
+    color:white !important;
+    border:2px solid white;
+    padding: 2.5px !important;
+    border-radius:50%;
+    width:40px !important;
+    height:40px !important;
+
+}
+
