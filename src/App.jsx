@@ -7,12 +7,9 @@ import Movie from "./container/movieInfo/Movie";
 function App() {
   return (
     <div className="App">
-      <Movie/>
       <Routes>
-        {/* useParams  */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/movies"  element={<Movie/>}/> */}
-
+        <Route path="/movies/:id" element={<Movie />} />:
       </Routes>
     </div>
   );

@@ -5,91 +5,92 @@ import { motion, AnimatePresence } from "framer-motion";
 import Dropdown from "../../components/dropDown/Dropdown";
 import { Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
 
-const filters=[
+const filters = [
   {
-  id:0,
-  name:"All",
-},
+    id: 0,
+    name: "All",
+  },
   {
-  id:35,
-  name:"Comedy",
-},
+    id: 35,
+    name: "Comedy",
+  },
   {
-  id:28,
- name:"Action",
-},
+    id: 28,
+    name: "Action",
+  },
 ];
 
-const releaseDate=[
+const releaseDate = [
   {
-  id:"0",
-  name:"Release Date",
-},
+    id: "0",
+    name: "Release Date",
+  },
   {
-  id:"2022",
-  name:2022,
-},
+    id: "2022",
+    name: 2022,
+  },
   {
-  id:"2021",
-  name:2021,
-},
+    id: "2021",
+    name: 2021,
+  },
   {
-  id:"2020",
-  name:2020,
-},
+    id: "2020",
+    name: 2020,
+  },
   {
-  id:"2019",
-  name:2019,
-},
+    id: "2019",
+    name: 2019,
+  },
   {
-  id:"2018",
-  name:2018,
-},
+    id: "2018",
+    name: 2018,
+  },
   {
-  id:"2017",
-  name:2017,
-},
+    id: "2017",
+    name: 2017,
+  },
   {
-  id:"2016",
-  name:2016,
-},
+    id: "2016",
+    name: 2016,
+  },
   {
-  id:"2015",
-  name:2015,
-},
+    id: "2015",
+    name: 2015,
+  },
   {
-  id:"2014",
-  name:2014,
-},
+    id: "2014",
+    name: 2014,
+  },
   {
-  id:"2013",
-  name:2013,
-},
+    id: "2013",
+    name: 2013,
+  },
   {
-  id:"2012",
-  name:2012,
-},
+    id: "2012",
+    name: 2012,
+  },
   {
-  id:"2011",
-  name:2011,
-},
+    id: "2011",
+    name: 2011,
+  },
   {
-  id:"2010",
-  name:2010,
-},
+    id: "2010",
+    name: 2010,
+  },
   {
-  id:"2009",
-  name:2009,
-},
+    id: "2009",
+    name: 2009,
+  },
   {
-  id:"2008",
-  name:2008,
-},
+    id: "2008",
+    name: 2008,
+  },
   {
-  id:"2007",
-  name:2007,
-},
+    id: "2007",
+    name: 2007,
+  },
 ];
 const Home = () => {
   const [data, setData] = useState([]);
@@ -97,16 +98,18 @@ const Home = () => {
   const [genre, setGenre] = useState(0);
   const [date, setDate] = useState("0");
   const [filtered, setFiltered] = useState([]);
-  const navigate=useNavigate();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const url = `https://movie-task.vercel.app/api/popular?page=${page}`;
       const Data = await fetch(url);
       const movies = await Data.json();
       setData(movies.data.results);
       setFiltered(movies.data.results);
-     
+      setLoading(false);
     };
     fetchData();
   }, [page]);
@@ -121,58 +124,70 @@ const Home = () => {
     setFiltered(filtering);
   }, [genre]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (data === "0") {
       setFiltered(data);
       return;
     }
-    const filteration = data.filter((movie)=> {
-      console.log( movie.release_date.split('-')[0])
-      return movie.release_date.split('-')[0] == date});
+    const filteration = data.filter((movie) => {
+      console.log(movie.release_date.split("-")[0]);
+      return movie.release_date.split("-")[0] == date;
+    });
     setFiltered(filteration);
-  },[date])
+  }, [date]);
 
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   return (
-    <div className={styles.container}>
-      <div className={`${styles.filter} flex al-cen j-bet`}>
-        <Dropdown
-          className={styles.dropdown}
-          activeGenre={genre}
-          setActiveGenre={setGenre}
-          options={filters}
-        />
-        <Dropdown
-          className={styles.dropdown}
-          activeGenre={date}
-          setActiveGenre={setDate}
-          options={releaseDate}
-        />
-
-      </div>
-      <motion.div layout className={styles.body}>
-        <AnimatePresence>
-          {filtered.map((props) => (
-            <Card key={props.id} {...props}  onClick={()=>navigate(`/movies/${props.id}`)}/>
-          ))}
-        </AnimatePresence>
-      </motion.div>
-      <div className={styles.pagination}>
-        <Pagination
-          count={500}
-          variant="outlined"
-          shape="circular"
-          page={page}
-          onChange={handleChange}
-          size='large'
-          color='secondary'
-          className={styles.pagination_bar}
-        />
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className={styles.container}>
+          <div className={`${styles.filter} flex al-cen j-bet`}>
+            <Dropdown
+              className={styles.dropdown}
+              activeGenre={genre}
+              setActiveGenre={setGenre}
+              options={filters}
+            />
+            <Dropdown
+              className={styles.dropdown}
+              activeGenre={date}
+              setActiveGenre={setDate}
+              options={releaseDate}
+            />
+          </div>
+          <div>
+            <motion.div layout className={styles.body}>
+              <AnimatePresence>
+                {filtered.map((props) => (
+                  <Card
+                    key={props.id}
+                    {...props}
+                    onClick={() => navigate(`/movies/${props.id}`)}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+            <div className={styles.pagination}>
+              <Pagination
+                count={500}
+                variant="outlined"
+                shape="circular"
+                page={page}
+                onChange={handleChange}
+                size="large"
+                color="secondary"
+                className={styles.pagination_bar}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

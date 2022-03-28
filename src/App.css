@@ -1,3 +1,6 @@
+:root{
+  --background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+}
 /* Font styling */
 h4 {
   font-weight: 700;
