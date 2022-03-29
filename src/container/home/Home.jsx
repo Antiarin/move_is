@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Card from "../../components/card/Card";
 import styles from "./Home.module.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,6 +6,8 @@ import Dropdown from "../../components/dropDown/Dropdown";
 import { Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
+import SearchIcon from "@mui/icons-material/Search";
+import { FilterDramaTwoTone } from "@mui/icons-material";
 
 const filters = [
   {
@@ -97,6 +99,7 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [genre, setGenre] = useState(0);
   const [date, setDate] = useState("0");
+  const [noData, setNoData] = useState(false);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -136,16 +139,34 @@ const Home = () => {
     setFiltered(filteration);
   }, [date]);
 
+  useEffect(() => {
+    if (filtered.length === 0) {
+      setNoData(true);
+    } else {
+      setNoData(false);
+    }
+  }, [filtered]);
+
   const handleChange = (event, value) => {
     setPage(value);
   };
+  const inputRef = useRef(null);
+  const handleSearch = () => {
+    if (inputRef.current === null) {
+      alert("Please enter some value");
+      return;
+    }
 
+    const search = inputRef.current.value;
+    const data = { search };
+  };
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div className={styles.container}>
+          <h1 className={styles.title}>Move-is?</h1>
           <div className={`${styles.filter} flex al-cen j-bet`}>
             <Dropdown
               className={styles.dropdown}
@@ -159,31 +180,51 @@ const Home = () => {
               setActiveGenre={setDate}
               options={releaseDate}
             />
-          </div>
-          <div>
-            <motion.div layout className={styles.body}>
-              <AnimatePresence>
-                {filtered.map((props) => (
-                  <Card
-                    key={props.id}
-                    {...props}
-                    onClick={() => navigate(`/movies/${props.id}`)}
-                  />
-                ))}
-              </AnimatePresence>
-            </motion.div>
-            <div className={styles.pagination}>
-              <Pagination
-                count={500}
-                variant="outlined"
-                shape="circular"
-                page={page}
-                onChange={handleChange}
-                size="large"
-                color="secondary"
-                className={styles.pagination_bar}
+            <div className={`${styles.input_field} flex al-cen`}>
+              <input
+                id={styles.input}
+                placeholder="Search for your favorite movies"
+                ref={inputRef}
               />
+              <button
+                className={styles.search_button}
+                type="submit"
+                onClick={handleSearch}
+              >
+                <SearchIcon id={styles.search} />
+              </button>
             </div>
+          </div>
+          {noData ? (
+            <div className="flex al-cen j-cen">
+              <p>Oppssss! There are no movies</p>
+            </div>
+          ) : (
+            <div>
+              <motion.div layout className={styles.body}>
+                <AnimatePresence>
+                  {filtered.map((props) => (
+                    <Card
+                      key={props.id}
+                      {...props}
+                      onClick={() => navigate(`/movies/${props.id}`)}
+                    />
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            </div>
+          )}
+          <div className={styles.pagination}>
+            <Pagination
+              count={500}
+              variant="outlined"
+              shape="circular"
+              page={page}
+              onChange={handleChange}
+              size="large"
+              color="secondary"
+              className={styles.pagination_bar}
+            />
           </div>
         </div>
       )}

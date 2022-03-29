@@ -1,9 +1,9 @@
 import { style } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import styles from "./Movie.module.css";
-
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 const Movie = () => {
   const [movieData, setMovieData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,7 @@ const Movie = () => {
    { loading ? <Loader /> :
     <>
       <div className={`${styles.container} flex`}>
+        <Link to="/" className={styles.back}><ArrowRightAltIcon id={styles.arrow}/></Link>
         <div className={`${styles.details} flex-c`}>
           <h1 className={`${styles.title} txt-al-cen`}>
             {movieData?.original_title}
@@ -65,7 +66,7 @@ const Movie = () => {
               <h5>{movieData?.vote_count} votes</h5>
             </div>
           </div>
-          <div className={`flex al-cen`}>
+          <div className={`flex al-cen ${styles.date}`}>
             <svg
               className={styles.svg}
               xmlns="http://www.w3.org/2000/svg"
@@ -121,16 +122,16 @@ const Movie = () => {
                 stroke-width="16"
               ></line>
             </svg>
-            <p className={styles.release_date}>{movieData?.release_date}</p>
+            <h5 className={styles.release_date}>{movieData?.release_date}</h5>
           </div>
-          <div className={`{styles.genre} flex`}>
+          <div className={`${styles.genre} flex`}>
             {movieData?.genres?.map((e) => (
               <button className={styles.genre_button} key={e.id}>
                 {e.name}
               </button>
             ))}
           </div>
-          <p>{movieData?.overview}</p>
+          <p className={styles.description}>{movieData?.overview}</p>
           <a href={movieData?.homepage} >
             <button className={`${styles.redirect_button} flex j-cen al-cen`}>
               Visit their official website
@@ -145,7 +146,7 @@ const Movie = () => {
               alt=""
             />
           </div>
-          <div className={styles.options}>IMDB</div>
+          <div className={styles.options}>Imdb</div>
         </div>
       </div>
     </>}

@@ -4,15 +4,91 @@
 }
 .container {
   padding: var(--home-padding-y) var(--home-padding-x);
+  width: 100%;
+}
+.title {
+  margin-bottom: 2rem;
+  height: fit-content;
+  font-weight: 1000;
+  font-size: clamp(50px, 6.5vw + 0.01em, 120px) !important;
+  background: linear-gradient(
+    90deg,
+    #fed530 0%,
+    #c70000 25%,
+    #00c7c7 65%,
+    #ffffff 100%
+  );
+  background-size: 600% 600%;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  animation: gradient 4s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 .dropdown {
-  width: clamp(150px, 23.438vw + 0.01em, 450px);
+  width: clamp(300px, 23.438vw + 0.01em, 450px);
+}
+.input_field {
+  width: clamp(300px, 23.438vw + 0.01em, 450px);
+  background: var(--background);
+  box-shadow: inset 0 0 0 2px #e6e8ec6e;
+  height: 40px;
+  border-radius: 12px;
+}
+
+#input {
+  font-size: 14px;
+  justify-content: flex-start;
+  width: 100%;
+  background: transparent;
+  height: 100%;
+  outline: none !important;
+  border: none !important;
+  padding: 0 10px;
+}
+.search_button {
+  width: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #fed530;
+  height: 35px;
+  border-radius: 50%;
+  background: transparent;
+  outline: none;
+}
+#search {
+  fill: #fed530 !important;
+  cursor:pointer;
+}
+@media(min-width:1023px){
+  .search_button:hover{
+    background:black;
+  }
+}
+@media (max-width: 768px) {
+  .filter {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dropdown {
+    width: 100%;
+  }
 }
 .body {
   margin-top: 3rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
+  place-items: center;
 }
 .pagination {
   width: fit-content;
@@ -21,19 +97,17 @@
 }
 .pagination_bar {
   width: 100% !important;
-  color:white !important;
+  color: white !important;
 }
 
-:global(.MuiPaginationItem-root){
-    font-size: 15px !important;
-    display:grid !important;
-    place-items: center !important;
-    color:white !important;
-    border:2px solid white;
-    padding: 2.5px !important;
-    border-radius:50%;
-    width:40px !important;
-    height:40px !important;
-
+:global(.MuiPaginationItem-root) {
+  font-size: 15px !important;
+  display: grid !important;
+  place-items: center !important;
+  color: white !important;
+  border: 2px solid white;
+  padding: 2.5px !important;
+  border-radius: 50%;
+  width: 40px !important;
+  height: 40px !important;
 }
-

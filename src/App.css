@@ -2,10 +2,21 @@
   --background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
 }
 /* Font styling */
+h1{
+  font-size:clamp(30px, 3.385vw + 0.01em, 65px);
+  font-weight:600;
+  line-height:3rem;
+
+}
 h4 {
   font-weight: 700;
   font-size: clamp(25px, 1vw + 0.01em, 35px);
   line-height: 2rem;
+}
+
+p{
+  font-size:clamp(18px, 1.563vw + 0.01em,45px);
+  line-height:2rem;
 }
 
 .flex {
