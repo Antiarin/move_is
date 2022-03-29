@@ -14,7 +14,7 @@
 }
 @media(min-width:1023px){
     .container:hover{
-      transform: translateY(-5px);
+      transform: translateY(-10px);
     }
 }
 
