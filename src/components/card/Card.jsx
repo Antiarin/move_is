@@ -18,9 +18,15 @@ const Card = ({
       className={styles.container}
       initial={{ opacity: 0, y:30}}
       whileInView={{opacity: 1, y:0 }}
-      transition={{ease:"easeInOut", duration:.25}}
+      transition={{ease:"easeInOut", duration:.5, type: "ease"}}
       exit={{ opacity: 0 }}
       onClick={onClick}
+      whileHover={{
+        scale: 1.1,
+        transition: { duration: .5,ease:"easeInOut", type: "ease"},
+      }}
+      whileTap={{ scale: 0.9 }}
+    
     >
       <img
         className={styles.img}

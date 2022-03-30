@@ -10,12 +10,6 @@
     height:max-content;
     box-shadow: 0 0 0 4px #00000052;
     cursor:pointer;
-    transition: transform 500ms ease-in-out;
-}
-@media(min-width:1023px){
-    .container:hover{
-      transform: translateY(-10px);
-    }
 }
 
 .img{
