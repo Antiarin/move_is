@@ -102,21 +102,51 @@ const Home = () => {
   const [noData, setNoData] = useState(false);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const inputRef = useRef(null);
+  const fetchData = async () => {
+    try {
       setLoading(true);
+      setLoading1(true);
       const url = `https://movie-task.vercel.app/api/popular?page=${page}`;
       const Data = await fetch(url);
       const movies = await Data.json();
       setData(movies.data.results);
       setFiltered(movies.data.results);
       setLoading(false);
-    };
-    fetchData();
-  }, [page]);
+      setLoading1(false);
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const handleSearch = async () => {
+    try {
+      if (inputRef.current.value === "") {
+        fetchData();
+        return;
+      }
+      setLoading(true);
+      const url = `https://movie-task.vercel.app/api/search?page=${page}&query=${inputRef.current.value}`;
+      const Data = await fetch(url);
+      const movies = await Data.json();
+      setData(movies.data.results);
+      setFiltered(movies.data.results);
+      setLoading(false);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
+  useEffect(() => {
+    if (inputRef.current && inputRef.current.value === "") {
+      fetchData();
+    } else {
+      handleSearch();
+    }
+  }, [page]);
+  console.log(inputRef);
   useEffect(() => {
     if (genre === 0) {
       setFiltered(data);
@@ -151,15 +181,6 @@ const Home = () => {
     setPage(value);
   };
 
-  const handleSearch = async (e) => {
-    setPage(1);
-    const url = `https://movie-task.vercel.app/api/search?page=${page}&query=${e.target.value}`;
-    const Data = await fetch(url);
-    const movies = await Data.json();
-    setData(movies.data.results);
-    setFiltered(movies.data.results);
-  };
-
   return (
     <>
       <div className={styles.container}>
@@ -182,6 +203,7 @@ const Home = () => {
               id={styles.input}
               placeholder="Search for your favorite movies"
               onChange={handleSearch}
+              ref={inputRef}
             />
             <button
               className={styles.search_button}
@@ -192,32 +214,40 @@ const Home = () => {
             </button>
           </div>
         </div>
+        <div className={styles.bodyComp}>
+          {loading1 ? (
+            <Loader />
+          ) : (
+            <>
+              {noData ? (
+                <div className={`${styles.nomovies} flex al-cen j-cen`}>
+                  <p>Oppssss! There are no movies</p>
+                </div>
+              ) : (
+                <>
+                  {loading ? (
+                    <>
+                      <Loader />
+                    </>
+                  ) : (
+                    <motion.div layout className={styles.body}>
+                      <AnimatePresence>
+                        {filtered.map((props) => (
+                          <Card
+                            key={props.id}
+                            {...props}
+                            onClick={() => navigate(`/movies/${props.id}`)}
+                          />
+                        ))}
+                      </AnimatePresence>
+                    </motion.div>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </div>
 
-        {noData ? (
-          <div className={`${styles.nomovies} flex al-cen j-cen`}>
-            <p>Oppssss! There are no movies</p>
-          </div>
-        ) : (
-          <div className={styles.bodyComp}>
-            {loading ? (
-              <>
-                <Loader />
-              </>
-            ) : (
-              <motion.div layout className={styles.body}>
-                <AnimatePresence>
-                  {filtered.map((props) => (
-                    <Card
-                      key={props.id}
-                      {...props}
-                      onClick={() => navigate(`/movies/${props.id}`)}
-                    />
-                  ))}
-                </AnimatePresence>
-              </motion.div>
-            )}
-          </div>
-        )}
         <div className={styles.pagination}>
           <Pagination
             count={500}
