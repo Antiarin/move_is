@@ -92,11 +92,17 @@
     width: 100%;
   }
 }
+.nomovies {
+  min-height: 55vh;
+}
+.bodyComp {
+  min-height: 55vh;
+}
 .body {
   margin-top: 3rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
+  gap: 50px 25px ;
   place-items: center;
 }
 @media (max-width: 350px) {

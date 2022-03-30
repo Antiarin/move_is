@@ -16,8 +16,9 @@ const Card = ({
     <motion.div
       layout
       className={styles.container}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, y:30}}
+      whileInView={{opacity: 1, y:0 }}
+      transition={{ease:"easeInOut", duration:.25}}
       exit={{ opacity: 0 }}
       onClick={onClick}
     >

@@ -128,7 +128,7 @@ const Home = () => {
   }, [genre]);
 
   useEffect(() => {
-    if (data === "0") {
+    if (date === "0") {
       setFiltered(data);
       return;
     }
@@ -150,57 +150,60 @@ const Home = () => {
   const handleChange = (event, value) => {
     setPage(value);
   };
-  const inputRef = useRef(null);
-  const handleSearch = () => {
-    if (inputRef.current === null) {
-      alert("Please enter some value");
-      return;
-    }
 
-    const search = inputRef.current.value;
-    const data = { search };
+  const handleSearch = async (e) => {
+    setPage(1);
+    const url = `https://movie-task.vercel.app/api/search?page=${page}&query=${e.target.value}`;
+    const Data = await fetch(url);
+    const movies = await Data.json();
+    setData(movies.data.results);
+    setFiltered(movies.data.results);
   };
+
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className={styles.container}>
-          <h1 className={styles.title}>Move-is?</h1>
-          <div className={`${styles.filter} flex al-cen j-bet`}>
-            <Dropdown
-              className={styles.dropdown}
-              activeGenre={genre}
-              setActiveGenre={setGenre}
-              options={filters}
+      <div className={styles.container}>
+        <h1 className={styles.title}>Move-is?</h1>
+        <div className={`${styles.filter} flex al-cen j-bet`}>
+          <Dropdown
+            className={styles.dropdown}
+            activeGenre={genre}
+            setActiveGenre={setGenre}
+            options={filters}
+          />
+          <Dropdown
+            className={styles.dropdown}
+            activeGenre={date}
+            setActiveGenre={setDate}
+            options={releaseDate}
+          />
+          <div className={`${styles.input_field} flex al-cen`}>
+            <input
+              id={styles.input}
+              placeholder="Search for your favorite movies"
+              onChange={handleSearch}
             />
-            <Dropdown
-              className={styles.dropdown}
-              activeGenre={date}
-              setActiveGenre={setDate}
-              options={releaseDate}
-            />
-            <div className={`${styles.input_field} flex al-cen`}>
-              <input
-                id={styles.input}
-                placeholder="Search for your favorite movies"
-                ref={inputRef}
-              />
-              <button
-                className={styles.search_button}
-                type="submit"
-                onClick={handleSearch}
-              >
-                <SearchIcon id={styles.search} />
-              </button>
-            </div>
+            <button
+              className={styles.search_button}
+              type="submit"
+              onClick={handleSearch}
+            >
+              <SearchIcon id={styles.search} />
+            </button>
           </div>
-          {noData ? (
-            <div className="flex al-cen j-cen">
-              <p>Oppssss! There are no movies</p>
-            </div>
-          ) : (
-            <div>
+        </div>
+
+        {noData ? (
+          <div className={`${styles.nomovies} flex al-cen j-cen`}>
+            <p>Oppssss! There are no movies</p>
+          </div>
+        ) : (
+          <div className={styles.bodyComp}>
+            {loading ? (
+              <>
+                <Loader />
+              </>
+            ) : (
               <motion.div layout className={styles.body}>
                 <AnimatePresence>
                   {filtered.map((props) => (
@@ -212,22 +215,22 @@ const Home = () => {
                   ))}
                 </AnimatePresence>
               </motion.div>
-            </div>
-          )}
-          <div className={styles.pagination}>
-            <Pagination
-              count={500}
-              variant="outlined"
-              shape="circular"
-              page={page}
-              onChange={handleChange}
-              size="large"
-              color="secondary"
-              className={styles.pagination_bar}
-            />
+            )}
           </div>
+        )}
+        <div className={styles.pagination}>
+          <Pagination
+            count={500}
+            variant="outlined"
+            shape="circular"
+            page={page}
+            onChange={handleChange}
+            size="large"
+            color="secondary"
+            className={styles.pagination_bar}
+          />
         </div>
-      )}
+      </div>
     </>
   );
 };
