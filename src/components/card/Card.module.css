@@ -3,11 +3,11 @@
 }
 .container{
     width:90%;
-    /* height:clamp(400px, 44.359vw + 0.01em, 800px); */
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
     border-radius:1rem;
     padding:1rem;
     height:max-content;
+    min-height: clamp(460px,38vw, 729px);
     box-shadow: 0 0 0 4px #00000052;
     cursor:pointer;
 }

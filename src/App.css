@@ -13,9 +13,14 @@ h4 {
   font-size: clamp(25px, 1vw + 0.01em, 35px);
   line-height: 2rem;
 }
+h5{
+  font-weight: 600;
+  font-size: clamp(20px, 1vw + 0.01em, 30px);
+  line-height:2rem;
+}
 
 p{
-  font-size:clamp(18px, 1.563vw + 0.01em,45px);
+  font-size:clamp(18px, 1.5vw + 0.01em,30px);
   line-height:2rem;
 }
 

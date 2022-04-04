@@ -127,6 +127,7 @@ const Home = () => {
         fetchData();
         return;
       }
+      setPage(1);
       setLoading(true);
       const url = `https://movie-task.vercel.app/api/search?page=${page}&query=${inputRef.current.value}`;
       const Data = await fetch(url);
